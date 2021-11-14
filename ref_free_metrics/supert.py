@@ -14,6 +14,7 @@ from ref_free_metrics.similarity_scorer import parse_documents
 
 class Supert():
     def __init__(self, docs, ref_metric='top15', sim_metric='f1'):
+        print(LANGUAGE)
         self.bert_model = SentenceTransformer('bert-large-nli-stsb-mean-tokens') 
         self.sim_metric = sim_metric
 
