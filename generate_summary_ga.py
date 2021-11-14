@@ -1,7 +1,7 @@
 import numpy as np
 from nltk.tokenize import word_tokenize
 import random
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import torch.nn as nn
 import torch
 import copy
