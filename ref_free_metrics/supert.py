@@ -1,22 +1,25 @@
-import sys
+import sys, os
 sys.path.append('../')
 
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from nltk.stem import PorterStemmer
 from sklearn.metrics.pairwise import cosine_similarity
-from nltk.corpus import stopwords
+# from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
 import copy
 
 from resources import BASE_DIR, LANGUAGE
 from ref_free_metrics.similarity_scorer import parse_documents
 
-LANGUAGE = 'vietnamese'
+def load_stopwords():
+    path = os.path.join(os.getcwd(), 'vietnamese-stopwords', 'vietnamese-stopwords.txt')
+    with open(path, 'r', encoding='utf-8') as fp:
+        stopwords = fp.read().strip('\n').split('\n')
+    return stopwords
 
 class Supert():
     def __init__(self, docs, ref_metric='top15', sim_metric='f1'):
-        print(LANGUAGE)
         self.bert_model = SentenceTransformer('bert-large-nli-stsb-mean-tokens') 
         self.sim_metric = sim_metric
 
@@ -85,7 +88,8 @@ class Supert():
             else:
                 full_vec = np.row_stack((full_vec, all_token_vecs[si]))
                 full_token.extend(all_tokens[si])
-        mystopwords = list(set(stopwords.words(LANGUAGE)))
+        # mystopwords = list(set(stopwords.words(LANGUAGE)))
+        mystopwords = load_stopwords()
         mystopwords.extend(['[cls]','[sep]'])
         wanted_idx = [j for j,tk in enumerate(full_token) if tk.lower() not in mystopwords]
         return full_vec[wanted_idx], np.array(full_token)[wanted_idx]
