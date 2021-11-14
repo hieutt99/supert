@@ -138,9 +138,12 @@ class GeneticSearcher():
         pool = self.init_pool(self.max_pop_size)
         scores = self.fitness_func(pool)
 
-        for i in tqdm(range(self.max_round)):
+        # for i in tqdm(range(self.max_round)):
+        #     pool, scores = self.round_search(pool, scores)
+        #     print('round {}, max fitness {:.3f}, median fitness {:.3f}'.format(i, np.max(scores), np.median(scores)))
+        
+        for i in range(self.max_round):
             pool, scores = self.round_search(pool, scores)
-            print('round {}, max fitness {:.3f}, median fitness {:.3f}'.format(i, np.max(scores), np.median(scores)))
 
         summ_idx = pool[np.argmax(scores)]
         summary = ' '.join([self.sentences[si]['text'] for si in summ_idx])
