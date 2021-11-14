@@ -12,6 +12,8 @@ import copy
 from resources import BASE_DIR, LANGUAGE
 from ref_free_metrics.similarity_scorer import parse_documents
 
+LANGUAGE = 'vietnamese'
+
 class Supert():
     def __init__(self, docs, ref_metric='top15', sim_metric='f1'):
         print(LANGUAGE)
