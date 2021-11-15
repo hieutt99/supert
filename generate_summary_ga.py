@@ -151,6 +151,8 @@ class GeneticSearcher():
             progress_bar.update(1)
             progress_bar.set_postfix_str('round {}, max fitness {:.3f}, median fitness {:.3f}'.format(i, np.max(scores), np.median(scores)))
 
+        # progress_bar.close()
+
         summ_idx = pool[np.argmax(scores)]
         summary = ' '.join([self.sentences[si]['text'] for si in summ_idx])
         return summary
