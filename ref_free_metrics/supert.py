@@ -23,37 +23,10 @@ class Supert():
         self.bert_model = SentenceTransformer('bert-large-nli-stsb-mean-tokens') 
         self.sim_metric = sim_metric
 
-        # # pre-process the documents
-        # self.sent_info_dic, _, self.sents_weights = parse_documents(docs,None,ref_metric)
-        # self.all_token_vecs, self.all_tokens = self.get_all_token_vecs(self.bert_model, self.sent_info_dic)
-        # self.ref_vecs, self.ref_tokens = self.build_pseudo_ref(ref_metric)
-
-    # =========================================
-    def preprocess(self, docs, ref_metric='top15', sim_metric='f1'):
         # pre-process the documents
         self.sent_info_dic, _, self.sents_weights = parse_documents(docs,None,ref_metric)
         self.all_token_vecs, self.all_tokens = self.get_all_token_vecs(self.bert_model, self.sent_info_dic)
         self.ref_vecs, self.ref_tokens = self.build_pseudo_ref(ref_metric)
-
-    def get_scores(self, summaries):
-        summ_vecs = []
-        summ_tokens = []
-        if isinstance(summaries[0], str):
-            for summ in summaries:
-                vv, tt = self.get_token_vecs(self.bert_model, sent_tokenize(summ))
-                summ_vecs.append(vv)
-                summ_tokens.append(tt)
-        elif isinstance(summaries[0], list):
-            for summ in summaries:
-                vv, tt = self.kill_stopwords(summ, self.all_token_vecs, self.all_tokens)
-                summ_vecs.append(vv)
-                summ_tokens.append(tt)
-        else:
-            print('INVALID INPUT SUMMARIES! Should be either a list of strings or a list of integers (indicating the sentence indices)')
-            exit()
-        scores = self.get_sbert_score(self.ref_vecs, self.ref_tokens, summ_vecs, summ_tokens, self.sim_metric)
-        return scores
-    # ===========================================================
 
     def get_all_token_vecs(self, model, sent_info_dict):
         all_sents = [sent_info_dict[i]['text'] for i in sent_info_dict]
