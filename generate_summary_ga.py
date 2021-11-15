@@ -145,9 +145,11 @@ class GeneticSearcher():
         # for i in range(self.max_round):
         #     pool, scores = self.round_search(pool, scores)
 
-        for i in tqdm(range(self.max_round), leave=True):
+        progress_bar = tqdm(range(self.max_round), leave=True)
+        for i in range(self.max_round):
             pool, scores = self.round_search(pool, scores)
-            print('round {}, max fitness {:.3f}, median fitness {:.3f}'.format(i, np.max(scores), np.median(scores)))
+            progress_bar.update(1)
+            progress_bar.set_postfix_str('round {}, max fitness {:.3f}, median fitness {:.3f}'.format(i, np.max(scores), np.median(scores)))
 
         summ_idx = pool[np.argmax(scores)]
         summary = ' '.join([self.sentences[si]['text'] for si in summ_idx])
