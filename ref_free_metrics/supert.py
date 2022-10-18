@@ -18,7 +18,7 @@ def load_stopwords():
         stopwords = fp.read().strip('\n').split('\n')
     return stopwords
 
-BERT_MODEL = SentenceTransformer('bert-large-nli-stsb-mean-tokens') 
+BERT_MODEL = SentenceTransformer('keepitreal/vietnamese-sbert') 
 class Supert():
     def __init__(self, docs, ref_metric='top15', sim_metric='f1'):
         # self.bert_model = SentenceTransformer('bert-large-nli-stsb-mean-tokens') 
